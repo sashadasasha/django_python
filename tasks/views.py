@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .models import Task
 
@@ -56,7 +57,7 @@ def change_complete(request, task_id):
     if task:
         task.completed = not task.completed
         task.save()
-        return redirect ('home')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     
 def remove_task(request, task_id):
     task = Task.objects.get(id=task_id)
